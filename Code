@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohamed Rayn | Cybersecurity Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #050505;
+            --text-main: #f8f9fa;
+            --text-muted: #9ca3af;
+            --accent: #00ffcc; 
+            --accent-hover: #00e6b8;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 50% -20%, #112220 0%, var(--bg-base) 70%);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        /* Glassmorphism & Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--card-border), transparent);
+        }
+
+        section:last-child::after {
+            display: none;
+        }
+
+        /* Hero */
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            margin-bottom: 16px;
+            letter-spacing: -2px;
+            background: linear-gradient(to right, #fff, #a5a5a5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            color: var(--accent);
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        .hero-desc {
+            max-width: 650px;
+            margin-bottom: 32px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .contact-info a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-info a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Typography Links */
+        .text-link {
+            color: var(--text-main);
+            text-decoration: underline;
+            text-decoration-color: var(--accent);
+            text-decoration-thickness: 2px;
+            text-underline-offset: 4px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .text-link:hover {
+            color: var(--accent);
+            background: rgba(0, 255, 204, 0.1);
+        }
+
+        /* Cards */
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            display: inline-block;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 255, 204, 0.06), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 255, 204, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 255, 204, 0.1);
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .card-meta {
+            color: var(--accent);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .card ul {
+            margin-left: 20px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        /* Tags */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .skill-tag {
+            background: transparent;
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: 'Fira Code', monospace;
+            border: 1px solid var(--card-border);
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(0, 255, 204, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* Buttons */
+        .btn {
+            align-self: flex-start;
+            padding: 10px 24px;
+            color: var(--accent);
+            background: transparent;
+            border: 1px solid var(--accent);
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: auto;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: var(--bg-base);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 12px 32px;
+            color: var(--bg-base);
+            background: var(--accent);
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 255, 204, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="fade-in">
+            <h1 class="hero-title">Mohamed Rayn</h1>
+            <h2 class="hero-subtitle">Computer Science Engineer | Cybersecurity</h2>
+            <p class="hero-desc">
+                Computer Science Engineering student (GPA 8.45/10) based in Sharjah, combining a strong technical background in Cybersecurity with practical coding skills in Python and Java. Passionate about building robust systems, managing secure data architectures, and tackling diverse technical challenges.
+            </p>
+            <div class="contact-info">
+                <a href="mailto:cyanexr@gmail.com">cyanexr@gmail.com</a>
+                <a href="#">Sharjah, UAE</a>
+                <a href="https://www.linkedin.com/in/mohamed-rayn/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/ItzRyan786" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+            <div>
+                <a href="Mohamed_Rayn_CV.pdf" download="Mohamed_Rayn_CV.pdf" class="btn-primary">Download CV</a>
+            </div>
+        </header>
+
+        <section id="about" class="fade-in">
+            <h2 class="section-title">00. About Me</h2>
+            <div class="card">
+                <p class="card-desc" style="font-size: 1.05rem;">
+                    My journey into Computer Science started with a fundamental curiosity about how systems work under the hood. Currently finishing my B.Tech with a minor in Cybersecurity, I've developed a strong foundation in protecting digital infrastructures and analyzing network vulnerabilities.
+                </p>
+                <p class="card-desc" style="font-size: 1.05rem;">
+                    Beyond the traditional curriculum, I am a hands-on technologist. I spend my free time exploring the mechanics of mobile OS environments, experimenting with app sideloading, and understanding how software behaves outside its standard sandboxes. This curiosity naturally translates into my professional work, where I thrive on building secure, efficient, and resilient systems.
+                </p>
+                <p class="card-desc" style="font-size: 1.05rem; margin-bottom: 0;">
+                    Whether it's developing a SOC dashboard to catch behavioral anomalies or engineering a full-stack application from scratch, I approach every project with a hacker's mindset and an engineer's discipline.
+                </p>
+            </div>
+        </section>
+
+        <section id="experience" class="fade-in">
+            <h2 class="section-title">01. Experience</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Cybersecurity Consultant Intern</h3>
+                    <div class="card-meta">
+                        <a href="https://www.flamingus.com/" target="_blank" rel="noopener noreferrer" class="text-link">Flamingus Technologies</a> | UAE | July 2025 - August 2025
+                    </div>
+                    <ul>
+                        <li>Conducted penetration testing using Kali Linux and Metasploit.</li>
+                        <li>Executed security assessments on simulated infrastructures using VMBox.</li>
+                        <li>Authored technical reports for senior management outlining risks and mitigations.</li>
+                        <li>Assisted in drafting standard operating procedures (SOPs) for network security and incident response.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="fade-in">
+            <h2 class="section-title">02. Featured Projects</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>AI-Based Forensic Log Analysis</h3>
+                    <div class="card-meta">Python, Streamlit, ML, Plotly</div>
+                    <p class="card-desc">Developed a SOC dashboard to detect behavioral anomalies in real-time using machine learning. Engineered interactive forensic modules including PCA-based behavior clustering and risk heatmaps.</p>
+                    <a href="https://github.com/ItzRyan786/AI-Based-Forensic-Log-Analysis-for-Threat-Detection/blob/main/README.md" class="btn" target="_blank" rel="noopener noreferrer">View Source</a>
+                </div>
+                <div class="card">
+                    <h3>Hotel Haven App</h3>
+                    <div class="card-meta">Flutter, Dart, Firebase</div>
+                    <p class="card-desc">Engineered a full-stack mobile app with real-time room availability and secure Firebase authentication.</p>
+                    <a href="https://github.com/ItzRyan786/Hotel-Haven-/blob/main/README.md" class="btn" target="_blank" rel="noopener noreferrer">View Source</a>
+                </div>
+                <div class="card">
+                    <h3>Car Hunt Specifications Portal</h3>
+                    <div class="card-meta">HTML, CSS, JS, REST APIs</div>
+                    <p class="card-desc">Built a responsive web platform fetching dynamic vehicle data via REST APIs.</p>
+                    <a href="https://github.com/ItzRyan786/Car-Hunt" class="btn" target="_blank" rel="noopener noreferrer">View Source</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="certifications" class="fade-in">
+            <h2 class="section-title">03. Certifications</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Cybersecurity</h3>
+                    <ul>
+                        <li>Introduction to Networking (CCNA, 2024)</li>
+                        <li>Foundations of Cybersecurity (Google, 2025)</li>
+                        <li>Digital Forensics Concepts (2025)</li>
+                        <li>RedHat System Administration (2024)</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>AI & Data Science</h3>
+                    <ul>
+                        <li>Deep Learning (2025)</li>
+                        <li>Natural Language Processing Essentials (2025)</li>
+                        <li>Build Basic GANs (2025)</li>
+                        <li>Math for ML: Linear Algebra (2023)</li>
+                        <li>Database Management Essentials (2024)</li>
+                        <li>Statistics with Excel (2024)</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>IoT & Management</h3>
+                    <ul>
+                        <li>Industrial IoT (2025)</li>
+                        <li>Introduction to IoT and Embedded Systems (2025)</li>
+                        <li>Project Management Basics (2025)</li>
+                        <li>Firm Level Economics (2025)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="fade-in">
+            <h2 class="section-title">04. Skills & Languages</h2>
+            <div class="skills-container">
+                <span class="skill-tag">Network Security</span>
+                <span class="skill-tag">Penetration Testing</span>
+                <span class="skill-tag">Metasploit</span>
+                <span class="skill-tag">Wireshark</span>
+                <span class="skill-tag">Nmap</span>
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">Java</span>
+                <span class="skill-tag">Machine Learning</span>
+                <span class="skill-tag">SQL Server</span>
+                <span class="skill-tag">Linux (Kali, RHEL)</span>
+                <span class="skill-tag">Flutter</span>
+            </div>
+            
+            <h3 style="margin-top: 20px; margin-bottom: 15px; font-size: 1.1rem;">Soft Skills</h3>
+            <div class="skills-container">
+                <span class="skill-tag">Strategic Problem Solving</span>
+                <span class="skill-tag">Technical Documentation</span>
+                <span class="skill-tag">Team Leadership</span>
+                <span class="skill-tag">Adaptability</span>
+            </div>
+
+            <h3 style="margin-top: 20px; margin-bottom: 15px; font-size: 1.1rem;">Languages</h3>
+            <div class="skills-container">
+                <span class="skill-tag">English (Fluent)</span>
+                <span class="skill-tag">Hindi (Fluent)</span>
+                <span class="skill-tag">Tamil (Fluent)</span>
+            </div>
+        </section>
+
+        <section id="education" class="fade-in">
+            <h2 class="section-title">05. Education</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>B.Tech in Computer Science Engineering</h3>
+                    <div class="card-meta">
+                        <a href="https://www.manipal.edu/mu/important-links/world-wide-manipal/manipal-university-dubai.html" target="_blank" rel="noopener noreferrer" class="text-link">Manipal Academy of Higher Education</a> | Dubai, UAE
+                    </div>
+                    <p class="card-desc" style="margin-bottom: 15px;">Minor Specialization in Cybersecurity • CGPA: 8.45/10</p>
+                    <p class="card-desc" style="margin-bottom: 10px; font-size: 0.9rem;"><strong>Specialized Electives:</strong> AI in Cybersecurity, Ethical Hacking, Database & App Security, Social Network Analysis, Deep Learning, Digital Forensics, Cryptography.</p>
+                    <p class="card-desc" style="margin-bottom: 0; font-size: 0.9rem;"><strong>Core CS Modules:</strong> Database Systems, Data Structures & Algorithms, Computer Networks, Operating Systems, Software Engineering, Object Oriented Programming (OOP), Compiler Design.</p>
+                </div>
+                <div class="card">
+                    <h3>High School Diploma (CBSE)</h3>
+                    <div class="card-meta">
+                        <a href="https://ajm.habitatschool.org/" target="_blank" rel="noopener noreferrer" class="text-link">Habitat School Al Jurf</a> | Ajman, UAE
+                    </div>
+                    <p class="card-desc" style="margin-bottom: 0;">Completed: 2022</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Scroll reveal animation
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            const hiddenElements = document.querySelectorAll('.fade-in');
+            hiddenElements.forEach((el) => observer.observe(el));
+
+            // Subtle mouse tracking glow effect on cards
+            document.querySelectorAll('.card').forEach(card => {
+                card.onmousemove = e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                };
+            });
+        });
+    </script>
+</body>
+</html>
